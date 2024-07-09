@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>parallax scroll - AOS</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      body {
+        height: 2500px;
+      }
+      .intro {
+        background-color: lightcyan;
+        height: 80vh;
+      }
+
+      .box {
+        width: 180px;
+        height: 180px;
+        margin: 30px auto;
+      }
+      .box1 {
+        background-color: skyblue;
+      }
+      .box2 {
+        background-color: pink;
+      }
+      .box3 {
+        background-color: greenyellow;
+      }
+      .box4 {
+        background-color: yellow;
+      }
+      .box5 {
+        background-color: lightcoral;
+      }
+      .box6 {
+        background-color: lightsalmon;
+      }
+      .box7 {
+        background-color: lightgray;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="intro">intro</div>
+    <div class="box box1" data-aos="fade-in">1, fade-in</div>
+    <div class="box box2" data-aos="fade-up">2, fade-up</div>
+    <div class="box box3" data-aos="fade-down">3, fade-down</div>
+    <div class="box box4" data-aos="fade-down-right">4, fade-down-right</div>
+    <div class="box box5" data-aos="fade-down-left">5, fade-down-left</div>
+    <div class="box box6" data-aos="fade-left">6, fade-left</div>
+    <div class="box box7" data-aos="fade-right">7, fade-right</div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      // AOS 초기화 - 속성값 한번에 설정하기
+      // 요소마다 개별적으로 설정하려면 인라인 형식으로 넣기
+      AOS.init({
+        delay: 2,
+        duration: 800,
+        easing: 'ease-in',
+        mirror: true,
+        once: false,
+        anchorPlacement: 'top-center',
+      });
+    </script>
+  </body>
+</html>

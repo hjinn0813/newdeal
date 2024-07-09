@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>parallax scroll - js</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        position: relative;
+        height: 200vh;
+      }
+      .item {
+        position: absolute;
+      }
+      .item1,
+      .item2 {
+        font-size: 100px;
+        font-weight: 700;
+      }
+      .item1 {
+        top: 100px;
+        transform-origin: 0 0;
+      }
+      .item2 {
+        top: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="item item1">item1</div>
+      <div class="item item2">item2</div>
+      <!-- <div class="item item3">item3</div> -->
+    </div>
+
+    <script>
+      window.addEventListener('scroll', () => {
+        const container = document.querySelector('.container');
+        const item1 = document.querySelector('.item1');
+        const item2 = document.querySelector('.item2');
+        const item3 = document.querySelector('.item3');
+
+        const scrolled = window.scrollY; // 스크롤된 거리 계산 가능
+        // console.log(scrolled);
+
+        item1.style.color = 'red';
+        item1.style.transform = `translate(${scrolled * 0.5}px, ${scrolled}px)`;
+        // y축 값이 없으면 위로 올라가버림
+
+        item2.style.color = 'blue';
+        item1.style.transform = `translate(${
+          scrolled * 0.5
+        }px, ${scrolled}px) scale(${scrolled * 0.01})`;
+      });
+    </script>
+  </body>
+</html>
