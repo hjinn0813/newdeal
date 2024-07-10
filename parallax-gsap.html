@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>parallax scroll - gsap</title>
+    <style>
+      @font-face {
+        font-family: 'GmarketSansMedium';
+        src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+          format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'GmarketSansMedium';
+        line-height: 1.5;
+      }
+      body,
+      html {
+        height: 100%;
+      }
+      #header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        text-align: center;
+        background-color: lightsalmon;
+      }
+      .container {
+        height: 200vh;
+        /* 스크롤 가능하도록 전체 문서 높이를 늘림 */
+      }
+
+      .inner {
+        position: relative;
+        max-width: 1280px;
+        margin: 0 auto;
+        height: 100vh; /* 높이를 100vh로 설정 */
+      }
+
+      .intro .typo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 400px;
+        font-size: 70px;
+        text-align: center;
+      }
+      .intro .typo01,
+      .intro .typo02 {
+        white-space: nowrap;
+      }
+      .intro .typo span {
+        display: block;
+        font-size: 40px;
+        font-weight: 400;
+      }
+      .intro .typo .typo01 {
+        transform: translateY(-200px);
+      }
+      .intro .typo .typo02 {
+        transform: translateY(200px);
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">header</header>
+    <div class="container">
+      <div class="intro pin01">
+        <div class="inner">
+          <div class="typo">
+            <div class="typo01">마라탕<span>Malatang</span></div>
+            <div class="typo02">탕후루<span>Tanghulu</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class=""></div>
+
+    <!-- gsap 기본 cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <!-- gsap scroll trigger cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+    <!-- lodash cdn -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+
+    <script>
+      // gsap.to("이동시킬 요소", { 옵션 });
+      /*
+      gsap.to('.typo01', { y: 0, duration: 1 });
+      gsap.to('.typo02', { y: 0, duration: 1 });
+      */
+
+      // gsap timeline
+      /*
+      const tl = gsap.timeline();
+      tl.to('.typo01', { y: 0, duration: 1 })
+        .to('.typo02', { y: 0, duration: 1 }, '-=1')
+        // '-=1' -> 1초를 빼서 동시에 움직이도록
+        .to('.typo span', { opacity: 0, duration: 1 })
+        .to('.typo', { gap: 0 });
+      */
+
+      // gsap scroll trigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.pin01',
+          scrub: 1,
+          pin: '.pin01',
+          start: 'top top',
+          end: 'bottom 50%',
+          markers: true,
+        },
+        /*
+        trigger: 기준이 되는 요소
+        scrub: 스크롤 속도에 따른 애니메이션 속도, 값은 0 or 1, 부드러운 애니메이션은 1
+        pin: 특정 위치 도달하면 고정시키기
+        start: 시작지점 지정. 핀(start), 뷰포트(scroll-start) 기준 -> 두 지점이 만나면 애니메이션 시작
+        end: 종료지점 지정. 핀, 뷰포트 기준 -> 두 지점이 만나면 애니메이션 종료
+        markers: 스크롤 시작+종료지점 표시
+        */
+      });
+      tl.to('.typo01', { y: 0, duration: 1 })
+        .to('.typo02', { y: 0, duration: 1 }, '-=1')
+        // '-=1' -> 1초를 빼서 동시에 움직이도록
+        .to('.typo span', { opacity: 0, duration: 1 })
+        .to('.typo', { gap: 0 });
+
+      // 스크롤되면 자연스럽게 사라지는 header
+      const headerEl = document.querySelector('#header');
+
+      // 윈도우가 스크롤되면 발생하는 이벤트
+      window.addEventListener(
+        'scroll',
+        _.throttle(() => {
+          // 스크롤이 지나치게 자주 발생하는 것을 조절하려고 일부러 부하를 줌 (throttle)
+          // https://lodash.com/docs/4.17.15#throttle
+
+          const scrolled = window.scrollY;
+          // 지역변수로 설정해야 적용됨
+
+          if (scrolled > 100) {
+            // headerEl.style.display = 'none';
+            // header의 높이만큼 y값 설정하여 숨김 처리
+            gsap.to(headerEl, { y: -100, duration: 0.3 });
+          } else {
+            // headerEl.style.display = 'block';
+            gsap.to(headerEl, { y: 0, duration: 0.3 });
+          }
+        }, 300)
+      );
+    </script>
+  </body>
+</html>
