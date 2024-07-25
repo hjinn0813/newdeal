@@ -33,7 +33,7 @@ console.log(
 //     this.name2 = name;
 //   }
 //   getName2(): string {
-//     return this.name;
+//     return this.name2;
 //   }
 // }
 
