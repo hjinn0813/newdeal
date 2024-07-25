@@ -44,31 +44,57 @@ getNum3(null);
 
 // ===================================================================================
 /* 3. 할당 단언 (Non-null Assertion) */
+// -> 변수가 나중에 값을 가질 것이라고 컴파일러에게 확신을 주는 방식
 
 let num1!: number;
 console.log(num1);
 num1 = 10;
-// 변수가 할당되기 전에 사용하면 오류 발생
+
+// 변수는 있는데 값이 없으면, ts는 변수가 사용되기 전에 값이 없을 수 있다고 생각해서 오류 발생
 // -> 변수에 !연산자 사용하여 할당 단언하면 오류 해결 가능
+// -> !연산자는 "이 변수는 나중에 반드시 값을 가질 것"이라고 알려주는 역할
 
 // ===================================================================================
 /* 4. 타입 가드 (Type Guard) */
 
-function logText(el: Element) {
-  console.log(el.textContent);
+function logText(a: Element) {
+  console.log(a.textContent);
 }
-const el2 = document.querySelector('div') as Element;
-logText(el2);
+const a = document.querySelector('div') as Element;
+logText(a);
 // logText 함수는 Element 타입을 인수로 받는다.
 // document.querySelector는 Element 또는 null일 수 있다.
-// 그래서 el2 변수가 Element 타입이라고 단언한다.
-// -> 이 방식은 el2 변수가 null일 가능성이 있어서 콘솔창에서 오류 발생
+// 그래서 a 변수가 Element 타입이라고 단언한다.
+// -> 이 방식은 a 변수가 null일 가능성이 있어서 콘솔창에서 오류 발생
 
-function logText2(el: Element | null) {
-  if (el === null) {
+function logText2(b: Element | null) {
+  if (b === null) {
     return;
   }
-  console.log(el.textContent);
+  console.log(b.textContent);
 }
-const el3 = document.querySelector('div');
-logText2(el3);
+const b = document.querySelector('div');
+logText2(b);
+// if문으로 b가 null인지 확인하여 b를 element 타입으로 사용하면 오류가 없다
+// -> if문 안에서는 b가 null이고, 밖에서는 null이 아님을 확신하기 때문
+
+// ===================================================================================
+/* 5. 타입 별칭 (Type Aliases) */
+
+type Cat =
+  | {
+      name: string;
+      age: number;
+      role: boolean;
+    }
+  | [string, number, boolean];
+// 새로운 타입을 정의하는 용도. 기존 타입을 참조하여 새로운 타입을 정의 가능
+// -> 여기서는 객체형, 배열형 둘 중에 하나를 가질 수 있다는 의미
+
+const cat1: Cat = {
+  name: '김가을',
+  age: 2,
+  role: false,
+};
+
+const cat2: Cat = ['김겨울', 22, true];

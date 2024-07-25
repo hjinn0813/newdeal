@@ -72,7 +72,7 @@ sum2(1, 2);
 // sum2(1, 2);
 
 const sum3 = (name: string): void => {
-  // void: return이 없는 함수
+  /* void: return이 없는 함수 */
   console.log(`hello, ${name}`);
 };
 sum3('');
